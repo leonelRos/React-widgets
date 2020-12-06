@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-export const Accordion = ({ items }) => {
+//desctructuring items from app.js state
+const Accordion = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const onTitleClick = (index) => {
@@ -9,8 +10,10 @@ export const Accordion = ({ items }) => {
 
   //we pass items from the items arraya data in app.js and index because we want to show the the element clicked based on their index
   const renderedItems = items.map((item, index) => {
+    //the active is to toggle the title in the accordion when it is clicked
     const active = index === activeIndex ? "active" : "";
     return (
+      //add the key to the title because it is unique
       <React.Fragment key={item.title}>
         <div className={`title ${active}`} onClick={() => onTitleClick(index)}>
           <i className="dropdown icon"></i>
@@ -25,3 +28,5 @@ export const Accordion = ({ items }) => {
 
   return <div className="ui styled accordion">{renderedItems}</div>;
 };
+
+export default Accordion;
