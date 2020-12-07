@@ -33,10 +33,11 @@ const Translate = () => {
     <div>
       <div className="ui form">
         <div className="field">
-          <label htmlFor="">ENter Text</label>
+          <label>Enter Text</label>
           <input value={text} onChange={(e) => setText(e.target.value)} />
         </div>
       </div>
+      {/* //exporting the dropdown from dropdown component and receiving the destrucutred props from it*/}
       <Dropdown
         label="Select Language"
         selected={language}

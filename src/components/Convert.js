@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+//using the debounced method to minimize the amount of request that users makes per typing.
+//This could potentially save money when APi is paid.
 const Convert = ({ language, text }) => {
+  //language and text come from translate component as props
   const [translated, setTranslated] = useState("");
   const [debouncedText, setDebouncedText] = useState(text);
 
+  //using timeout to give the user time to type and then render the page
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebouncedText(text);
