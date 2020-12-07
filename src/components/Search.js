@@ -3,7 +3,17 @@ import axios from "axios";
 
 const Search = () => {
   const [term, setTerm] = useState("coding");
+  const [debouncedTerm, setDebouncedTerm] = useState(term);
   const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    const cancelTerm = setTimeout(() => {
+      setDebouncedTerm(term);
+    }, 1000);
+    return () => {
+      clearTimeout(cancelTerm);
+    };
+  }, [term]);
 
   //useffect is like  lyfecycles methos in react and to invoke a api request using
   //async await i need to create a helper function to be inmediatly invoked
@@ -15,20 +25,101 @@ const Search = () => {
           list: "search",
           origin: "*",
           format: "json",
-          srsearch: term,
+          srsearch: debouncedTerm,
         },
       });
       setResults(data.query.search);
     };
-    search();
-  }, [term]);
+
+    //this statement helps to reduce to time of loading once the page is render  to the browser
+    // if (term && !results.length) {
+    //   search();
+    // } else {
+    //   //this solve the problem of making to many request when user typing
+    //   const cancelTimeOut = setTimeout(() => {
+    //     //this is to check if there is a term in the input do search otherwise do not
+    //     if (term) {
+    //       search();
+    //     }
+    //   }, 1000);
+    //   return () => {
+    //     clearTimeout(cancelTimeOut);
+    //   };
+    // }
+
+    // //this solve the problem of making to many request when user typing
+    // const cancelTimeOut = setTimeout(() => {
+    //   //this is to check if there is a term in the input do search otherwise do not
+    //   if (term) {
+    //     search();
+    //   }
+    // }, 500);
+    // return () => {
+    //   clearTimeout(cancelTimeOut);
+    // };
+    if (debouncedTerm) {
+      search();
+    }
+  }, [debouncedTerm]);
+  //   //useffect is like  lyfecycles methos in react and to invoke a api request using
+  //   //async await i need to create a helper function to be inmediatly invoked
+  //   useEffect(() => {
+  //     const search = async () => {
+  //       const { data } = await axios.get("https://en.wikipedia.org/w/api.php", {
+  //         params: {
+  //           action: "query",
+  //           list: "search",
+  //           origin: "*",
+  //           format: "json",
+  //           srsearch: term,
+  //         },
+  //       });
+  //       setResults(data.query.search);
+  //     };
+
+  //     //this statement helps to reduce to time of loading once the page is render  to the browser
+  //     if (term && !results.length) {
+  //       search();
+  //     } else {
+  //       //this solve the problem of making to many request when user typing
+  //       const cancelTimeOut = setTimeout(() => {
+  //         //this is to check if there is a term in the input do search otherwise do not
+  //         if (term) {
+  //           search();
+  //         }
+  //       }, 1000);
+  //       return () => {
+  //         clearTimeout(cancelTimeOut);
+  //       };
+  //     }
+
+  //     // //this solve the problem of making to many request when user typing
+  //     // const cancelTimeOut = setTimeout(() => {
+  //     //   //this is to check if there is a term in the input do search otherwise do not
+  //     //   if (term) {
+  //     //     search();
+  //     //   }
+  //     // }, 500);
+  //     // return () => {
+  //     //   clearTimeout(cancelTimeOut);
+  //     // };
+  //   }, [term]);
   //title and snippet are propertities from the wiki api
   const renderedResults = results.map((result) => {
     return (
       <div key={result.pageid} className="item">
+        <div className="right floated content">
+          <a
+            href={`https://en.wikipedia.org?curid=${result.pageid}`}
+            className="ui button"
+          >
+            Go
+          </a>
+        </div>
+
         <div className="content">
           <div className="header">{result.title}</div>
-          {result.snippet}
+          <span dangerouslySetInnerHTML={{ __html: result.snippet }}></span>
         </div>
       </div>
     );
