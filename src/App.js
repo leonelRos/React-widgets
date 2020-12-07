@@ -51,6 +51,7 @@ const App = () => {
       </button>
       {showDropdown ? (
         <Dropdown
+          label="Select a color"
           selected={selected}
           onSelectedChange={setSelected}
           options={options}

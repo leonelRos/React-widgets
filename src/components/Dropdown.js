@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 //options is a prop destructure coming from the app component. selected and on slected change are props also coming from app
-const Dropdown = ({ options, selected, onSelectedChange }) => {
+const Dropdown = ({ label, options, selected, onSelectedChange }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef();
   useEffect(() => {
@@ -38,7 +38,7 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
   return (
     <div ref={ref} className="ui form">
       <div className="field">
-        <label className="label">Select a color</label>
+        <label className="label">{label}</label>
         <div
           // this toggle the dropdown wheter it open or close
           className={`ui selection dropdown ${open ? "visible active" : ""}`}

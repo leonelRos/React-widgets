@@ -7,11 +7,11 @@ const Search = () => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    const cancelTerm = setTimeout(() => {
+    const timerID = setTimeout(() => {
       setDebouncedTerm(term);
     }, 1000);
     return () => {
-      clearTimeout(cancelTerm);
+      clearTimeout(timerID);
     };
   }, [term]);
 
