@@ -29,6 +29,7 @@ const Search = () => {
         },
       });
       setResults(data.query.search);
+      setTerm(""); //this could be delete if user doesnt care about clean input
     };
 
     //this statement helps to reduce to time of loading once the page is render  to the browser
@@ -57,6 +58,7 @@ const Search = () => {
     // return () => {
     //   clearTimeout(cancelTimeOut);
     // };
+    //THIS CHECK IF THE INPUT IS EMPTY DO NOTHING AND APP DOESNT CRASH
     if (debouncedTerm) {
       search();
     }
@@ -106,13 +108,11 @@ const Search = () => {
   //   }, [term]);
   //title and snippet are propertities from the wiki api
   const renderedResults = results.map((result) => {
+    const source = `https://en.wikipedia.org?curid=${result.pageid}`;
     return (
       <div key={result.pageid} className="item">
         <div className="right floated content">
-          <a
-            href={`https://en.wikipedia.org?curid=${result.pageid}`}
-            className="ui button"
-          >
+          <a href={source} className="ui button">
             Go
           </a>
         </div>
