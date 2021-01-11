@@ -106,6 +106,7 @@ const Search = () => {
   //     //   clearTimeout(cancelTimeOut);
   //     // };
   //   }, [term]);
+
   //title and snippet are propertities from the wiki api
   const renderedResults = results.map((result) => {
     const source = `https://en.wikipedia.org?curid=${result.pageid}`;
